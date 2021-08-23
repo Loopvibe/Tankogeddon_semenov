@@ -1,0 +1,14 @@
+# Ignore everything first
+/*
+ 
+# Exclude top level required files and dirs
+!/.gitignore
+!/*.uproject
+!/Source
+!/Binaries
+!/Content
+!/Config
+!/Plugins
+
+
+Binaries/
