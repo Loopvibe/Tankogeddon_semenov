@@ -2,11 +2,14 @@
 
 #include "CoreMinimal.h"
 #include "GameStructs.h"
+#include "Projectile.h"
+#include "DrawDebugHelpers.h"
 #include "GameFramework/Actor.h"
 #include "Cannon.generated.h"
 
 
 class UArrowComponent;
+class AProjectile;
 
 UCLASS()
 class TANKOGEDDON_API ACannon : public AActor
@@ -30,6 +33,9 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Fire params")
 		ECannonType Type = ECannonType::FireProjectile;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Fire params")
+		TSubclassOf<AProjectile> ProjectileClass;
+
 	FTimerHandle ReloadTimerHandle;
 
 	bool ReadyToFire = false;
@@ -38,11 +44,15 @@ protected:
 public:
 	ACannon();
 
+	void AddAmmo(int32 ammo);
+	
 	void Fire();
 
 	void FireSpecial();
 
 	bool IsReadyToFire();
+
+	void SetVisibility(bool bIsVisibility);
 
 protected:
 	virtual void BeginPlay() override;

@@ -50,7 +50,9 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Turret|Cannon")
 		TSubclassOf<ACannon> CannonClass;
 	UPROPERTY()
-		ACannon* Cannon;
+		ACannon* ActiveCannon;
+	UPROPERTY()
+		ACannon* InactiveCannon;
 
 
 	float TargetForwardAxisValue;
@@ -77,8 +79,18 @@ public:
 	UFUNCTION()
 		void FireSpecial();
 
+	UFUNCTION()
+	void SetupCannon(TSubclassOf<ACannon> InCannonClass);
+
+	UFUNCTION()
+		void SwapCannon();
+
+	UFUNCTION()
+		ACannon* GetActiveCannon() const;
+
+
 protected:
-	void SetupCannon();
+	
 
 
 };
