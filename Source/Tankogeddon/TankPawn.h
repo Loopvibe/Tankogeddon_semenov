@@ -2,6 +2,9 @@
 
 #pragma once
 
+#include "Components/BoxComponent.h"
+#include "DamageTaker.h"
+#include "HealthComponent.h"
 #include "Cannon.h"
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
@@ -13,8 +16,9 @@ class USpringArmComponent;
 class ATankPlayerController;
 class ACannon;
 
+
 UCLASS()
-class TANKOGEDDON_API ATankPawn : public APawn
+class TANKOGEDDON_API ATankPawn : public APawn, public IDamageTaker
 {
 	GENERATED_BODY()
 
@@ -35,6 +39,11 @@ protected:
 		USpringArmComponent* SpringArm;
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite, Category = "Components")
 		UCameraComponent* Camera;
+	//Helth
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite, Category = "Components")
+		UHealthComponent* HealthComponent;
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite, Category = "Components")
+		UBoxComponent* HitCollider;
 	//seting
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Movement|Speed")
 		float MoveSpeed = 400;
@@ -88,9 +97,17 @@ public:
 	UFUNCTION()
 		ACannon* GetActiveCannon() const;
 
+	UFUNCTION()
+		void TakeDamage(FDamageData DamageData);
+
+
 
 protected:
 	
+	UFUNCTION()
+		void Die();
 
+	UFUNCTION()
+		void DamageTaked(float DamageValue);
 
 };
