@@ -3,8 +3,11 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "GameStructs.h"
+#include "DamageTaker.h"
 #include "GameFramework/Actor.h"
 #include "Projectile.generated.h"
+
 
 
 UCLASS()
@@ -15,7 +18,8 @@ class TANKOGEDDON_API AProjectile : public AActor
 protected:
     UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite, Category = "Components")
         UStaticMeshComponent* Mesh;
-
+    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Movement|Speed")
+        float FlyRange = 5000;
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Movement|Speed")
         float MoveSpeed = 100;
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Movement|Speed")

@@ -8,6 +8,7 @@
 ATankPlayerController::ATankPlayerController()
 {
 	bShowMouseCursor = true;
+
 }
 
 void ATankPlayerController::SetupInputComponent()
