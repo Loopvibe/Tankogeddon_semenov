@@ -63,6 +63,11 @@ protected:
 	UPROPERTY()
 		ACannon* InactiveCannon;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AI|Move params|Patrol points", Meta = (MakeEditWidget = true))
+		TArray<FVector> PatrollingPoints;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AI|Move params|Accurency")
+		float MovementAccurency = 50;
+
 
 	float TargetForwardAxisValue;
 	float TargetRightAxisValue;
@@ -99,6 +104,22 @@ public:
 
 	UFUNCTION()
 		void TakeDamage(FDamageData DamageData);
+
+	UFUNCTION()
+		TArray<FVector> GetPatrollingPoints() { return PatrollingPoints; };
+
+	UFUNCTION()
+		float GetMovementAccurency() { return MovementAccurency; };
+
+	UFUNCTION()
+		FVector GetTurretForwardVector();
+
+	UFUNCTION()
+		void RotateTurretTo(FVector TargetPosition);
+
+	FVector GetEyesPosition();
+
+
 
 
 
