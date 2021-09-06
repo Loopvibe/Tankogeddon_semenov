@@ -18,21 +18,57 @@ void ATankAIController::BeginPlay()
     {
         PatrollingPoints.Add(point + pawnLocation);
     }
-    CurrentPatrolPointIndex = 0;
+    CurrentPatrolPointIndex = PatrollingPoints.Num()==0 ? INDEX_NONE: 0;
 }
 
 void ATankAIController::Tick(float DeltaTime)
 {
     Super::Tick(DeltaTime);
-    TankPawn->MoveForward(1);
 
-    float rotationValue = GetRotationgValue();
-    TankPawn->RotateRight(rotationValue);
+    if (CurrentPatrolPointIndex == INDEX_NONE)
+    {
+        TankPawn->MoveForward(0.f);
+        return;
+    }
+
+    TankPawn->MoveForward(1.f);
+    FVector CurrentPoint = PatrollingPoints[CurrentPatrolPointIndex];
+    FVector PawnLocation = TankPawn->GetActorLocation();
+    if (FVector::Distance(CurrentPoint, PawnLocation) <= MovementAccurency)
+    {
+        CurrentPatrolPointIndex++;
+        if (CurrentPatrolPointIndex >= PatrollingPoints.Num())
+        {
+            CurrentPatrolPointIndex = 0;
+        }
+    }
+
+    FVector MoveDirection = CurrentPoint - PawnLocation;
+    MoveDirection.Normalize();
+    FVector ForwardDirection = TankPawn->GetActorForwardVector();
+    FVector RightDirection = TankPawn->GetActorRightVector();
+
+    DrawDebugLine(GetWorld(), PawnLocation, CurrentPoint, FColor::Green, false, 0.1f, 0, 5);
+
+    float ForwardAngle = FMath::RadiansToDegrees(FMath::Acos(FVector::DotProduct(ForwardDirection, MoveDirection)));
+    float RightAngle = FMath::RadiansToDegrees(FMath::Acos(FVector::DotProduct(RightDirection, MoveDirection)));
+
+    float RotationValue = 0;
+    if (ForwardAngle > 5.f)
+    {
+        RotationValue = 1.f;
+    }
+    if (RightAngle > 90.f)
+    {
+        RotationValue = -RotationValue;
+    }
+
+    TankPawn->RotateRight(RotationValue);
 
     Targeting();
 }
 
-float ATankAIController::GetRotationgValue()
+float ATankAIController::GetRotationValue()
 {
     FVector currentPoint = PatrollingPoints[CurrentPatrolPointIndex];
     FVector pawnLocation = TankPawn->GetActorLocation();
@@ -65,15 +101,21 @@ float ATankAIController::GetRotationgValue()
 void ATankAIController::Targeting()
 {
     if (CanFire())
+    {
         Fire();
+    }
     else
+    {
         RotateToPlayer();
+    }
 }
 
 void ATankAIController::RotateToPlayer()
 {
     if (IsPlayerInRange())
+    {
         TankPawn->RotateTurretTo(PlayerPawn->GetActorLocation());
+    }
 }
 
 bool ATankAIController::IsPlayerInRange()

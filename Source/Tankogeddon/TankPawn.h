@@ -106,7 +106,7 @@ public:
 		void TakeDamage(FDamageData DamageData);
 
 	UFUNCTION()
-		TArray<FVector> GetPatrollingPoints() { return PatrollingPoints; };
+		const TArray<FVector> GetPatrollingPoints() { return PatrollingPoints; };
 
 	UFUNCTION()
 		float GetMovementAccurency() { return MovementAccurency; };
