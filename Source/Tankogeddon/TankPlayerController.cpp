@@ -57,6 +57,9 @@ void ATankPlayerController::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	if (!TankPawn)
+	TankPawn = Cast<ATankPawn>(GetPawn());
+
 	FVector mouseDirection;
 	DeprojectMousePositionToWorld(MousePos, mouseDirection);
 	FVector pawnPos = TankPawn->GetActorLocation();
@@ -64,5 +67,5 @@ void ATankPlayerController::Tick(float DeltaTime)
 	FVector dir = MousePos - pawnPos;
 	dir.Normalize();
 	MousePos = pawnPos + dir * 500.f;
-	DrawDebugLine(GetWorld(), pawnPos, MousePos, FColor::Green, false, 0.1f, 0, 5);
+	DrawDebugLine(GetWorld(), pawnPos, MousePos, FColor::Cyan, false, 0.1f, 0, 5);
 }

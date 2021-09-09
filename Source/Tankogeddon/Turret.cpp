@@ -94,10 +94,10 @@ bool ATurret::IsPlayerInRange()
 
 bool ATurret::CanFire()
 {
-
+	
 	if (!IsPlayerSeen())
 		return false;
-
+	
 	FVector targetingDir = TurretMesh->GetForwardVector();
 	FVector dirToPlayer = PlayerPawn->GetActorLocation() - GetActorLocation();
 	dirToPlayer.Normalize();
@@ -147,14 +147,15 @@ bool ATurret::IsPlayerSeen()
 	if (GetWorld()->LineTraceSingleByChannel(hitResult, eyesPos, playerPos, ECollisionChannel::ECC_Visibility, traceParams))
 	{
 
-		if (hitResult.Actor.Get())
+		if (hitResult.Actor.Get() && hitResult.Actor.Get() != PlayerPawn)
 		{
 			DrawDebugLine(GetWorld(), eyesPos, hitResult.Location, FColor::Cyan, false, 0.5f, 0, 10);
-			return hitResult.Actor.Get() == PlayerPawn;
+			return false;
 		}
 	}
 	DrawDebugLine(GetWorld(), eyesPos, playerPos, FColor::Cyan, false, 0.5f, 0, 10);
-	return false;
+	DrawDebugCircle(GetWorld(), eyesPos, TargetingRange, 50, FColor::Red, false, 0.5f, 0, 10, FVector((1),(0),(0)), FVector((0), (1), (0)),true);
+	return true;
 }
 
 

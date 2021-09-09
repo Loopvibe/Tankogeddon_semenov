@@ -6,24 +6,42 @@
 #include "Kismet/KismetMathLibrary.h"
 #include "DrawDebugHelpers.h"
 
+
+void ATankAIController::Initialize()
+{
+    TankPawn = Cast<ATankPawn>(GetPawn());
+    if (TankPawn)
+    {
+        PlayerPawn = GetWorld()->GetFirstPlayerController()->GetPawn();
+        FVector pawnLocation = TankPawn->GetActorLocation();
+        MovementAccurency = TankPawn->GetMovementAccurency();
+        TArray<FVector> points = TankPawn->GetPatrollingPoints();
+        
+        for (FVector point : points)
+        {
+            PatrollingPoints.Add(point);
+        }
+        
+        CurrentPatrolPointIndex = PatrollingPoints.Num() == 0 ? INDEX_NONE : 0;
+    }
+}
+
 void ATankAIController::BeginPlay()
 {
     Super::BeginPlay();
-    TankPawn = Cast<ATankPawn>(GetPawn());
-    PlayerPawn = GetWorld()->GetFirstPlayerController()->GetPawn();
-    FVector pawnLocation = TankPawn->GetActorLocation();
-    MovementAccurency = TankPawn->GetMovementAccurency();
-    TArray<FVector> points = TankPawn->GetPatrollingPoints();
-    for (FVector point : points)
-    {
-        PatrollingPoints.Add(point + pawnLocation);
-    }
-    CurrentPatrolPointIndex = PatrollingPoints.Num()==0 ? INDEX_NONE: 0;
+    Initialize();
+
 }
 
 void ATankAIController::Tick(float DeltaTime)
 {
     Super::Tick(DeltaTime);
+
+    if (!TankPawn)
+        Initialize();
+
+    if (!TankPawn)
+        return;
 
     if (CurrentPatrolPointIndex == INDEX_NONE)
     {
@@ -125,8 +143,10 @@ bool ATankAIController::IsPlayerInRange()
 
 bool ATankAIController::CanFire()
 {
+    
     if (!IsPlayerSeen())
         return false;
+     
 
     FVector targetingDir = TankPawn->GetTurretForwardVector();
     FVector dirToPlayer = PlayerPawn->GetActorLocation() - TankPawn->GetActorLocation();
@@ -137,6 +157,9 @@ bool ATankAIController::CanFire()
 
 bool ATankAIController::IsPlayerSeen()
 {
+    if (!PlayerPawn)
+        Initialize();
+
     FVector playerPos = PlayerPawn->GetActorLocation();
     FVector eyesPos = TankPawn->GetEyesPosition();
 
@@ -149,14 +172,16 @@ bool ATankAIController::IsPlayerSeen()
     if (GetWorld()->LineTraceSingleByChannel(hitResult, eyesPos, playerPos, ECollisionChannel::ECC_Visibility, traceParams))
     {
 
-        if (hitResult.Actor.Get())
+        if (hitResult.Actor.Get() && hitResult.Actor.Get() != PlayerPawn)
         {
             DrawDebugLine(GetWorld(), eyesPos, hitResult.Location, FColor::Cyan, false, 0.5f, 0, 10);
-            return hitResult.Actor.Get() == PlayerPawn;
+            return false;
         }
     }
     DrawDebugLine(GetWorld(), eyesPos, playerPos, FColor::Cyan, false, 0.5f, 0, 10);
-    return false;
+    DrawDebugCircle(GetWorld(), eyesPos, TargetingRange, 50, FColor::Red, false, 0.5f, 0, 10, FVector((1), (0), (0)), FVector((0), (1), (0)), true);
+
+    return true;
 }
 
 void ATankAIController::Fire()
