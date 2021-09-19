@@ -20,6 +20,16 @@ AProjectile::AProjectile()
 	Mesh->OnComponentBeginOverlap.AddDynamic(this, &AProjectile::OnMeshOverlapBegin);
 	Mesh->SetCollisionObjectType(ECollisionChannel::ECC_GameTraceChannel1);
 
+	DamageEffect = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("Damage Effect"));
+	DamageEffect->SetupAttachment(RootComponent);
+	DestroyEffect = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("Destroy Effect"));
+	DestroyEffect->SetupAttachment(RootComponent);
+
+	AudioEffect = CreateDefaultSubobject<UAudioComponent>(TEXT("Audio Effect"));
+	AudioEffect->SetupAttachment(RootComponent);
+	
+
+
 }
 
 void AProjectile::Start()
@@ -45,9 +55,14 @@ void AProjectile::OnMeshOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor
 			damageData.DamageMaker = this;
 
 			damageTakerActor->TakeDamage(damageData);
+
+			DamageEffect->ActivateSystem();
+			AudioEffect->Play();
 		}
 		else
 		{
+			DestroyEffect->ActivateSystem();
+			AudioEffect->Play();
 			OtherActor->Destroy();
 		}
 

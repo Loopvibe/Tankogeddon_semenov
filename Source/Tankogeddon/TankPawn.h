@@ -7,6 +7,7 @@
 #include "HealthComponent.h"
 #include "Cannon.h"
 #include "CoreMinimal.h"
+#include "Engine/TargetPoint.h"
 #include "GameFramework/Pawn.h"
 #include "TankPawn.generated.h"
 
@@ -63,6 +64,11 @@ protected:
 	UPROPERTY()
 		ACannon* InactiveCannon;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AI|Move params|Patrol points", Meta = (MakeEditWidget = true))
+		TArray<ATargetPoint*> PatrollingPoints;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AI|Move params|Accurency")
+		float MovementAccurency = 50;
+
 
 	float TargetForwardAxisValue;
 	float TargetRightAxisValue;
@@ -99,6 +105,23 @@ public:
 
 	UFUNCTION()
 		void TakeDamage(FDamageData DamageData);
+
+	UFUNCTION()
+		float GetMovementAccurency() { return MovementAccurency; };
+
+	UFUNCTION()
+		FVector GetTurretForwardVector();
+
+	UFUNCTION()
+		void RotateTurretTo(FVector TargetPosition);
+
+	FVector GetEyesPosition();
+
+	UFUNCTION()
+	TArray<FVector> GetPatrollingPoints();
+
+	UFUNCTION()
+	void SetPatrollingPoints(TArray<ATargetPoint*> NewPatrollingPoints);
 
 
 

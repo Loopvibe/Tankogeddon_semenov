@@ -34,6 +34,7 @@ protected:
         ACannon* Cannon;
     UPROPERTY()
         APawn* PlayerPawn;
+    
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Targeting")
         float TargetingRange = 1000;
@@ -68,5 +69,9 @@ protected:
     bool IsPlayerInRange();
     bool CanFire();
     void Fire();
+    bool IsPlayerSeen();
+
+    FVector GetEyesPosition();
+    
 };
 

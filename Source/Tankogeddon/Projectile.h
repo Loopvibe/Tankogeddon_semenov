@@ -6,6 +6,9 @@
 #include "GameStructs.h"
 #include "DamageTaker.h"
 #include "GameFramework/Actor.h"
+#include "Components/AudioComponent.h"
+#include "GameFramework/ForceFeedbackEffect.h"
+#include "Particles/ParticleSystemComponent.h"
 #include "Projectile.generated.h"
 
 
@@ -18,6 +21,13 @@ class TANKOGEDDON_API AProjectile : public AActor
 protected:
     UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite, Category = "Components")
         UStaticMeshComponent* Mesh;
+    UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite, Category = "Components")
+        UParticleSystemComponent* DamageEffect;
+    UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite, Category = "Components")
+        UParticleSystemComponent* DestroyEffect;
+    UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite, Category = "Components")
+        UAudioComponent* AudioEffect;
+
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Movement|Speed")
         float FlyRange = 5000;
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Movement|Speed")

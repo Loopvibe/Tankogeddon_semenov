@@ -17,8 +17,8 @@ class TANKOGEDDON_API UHealthComponent : public UActorComponent
     DECLARE_EVENT_OneParam(UHealthComponent, FOnHealthChanged, float)
 
 protected:
-    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Health values")
-        float MaxHealth =5;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Health values")
+        float MaxHealth =5.f;
 
     UPROPERTY()
         float CurrentHealth;
