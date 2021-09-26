@@ -27,27 +27,37 @@ protected:
         UParticleSystemComponent* DestroyEffect;
     UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite, Category = "Components")
         UAudioComponent* AudioEffect;
-
+    
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Movement|Speed")
         float FlyRange = 5000;
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Movement|Speed")
         float MoveSpeed = 100;
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Movement|Speed")
         float MoveRate = 0.005f;
+
+    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Damage")
+        bool VolumetricExplosion=true;
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Damage")
         float Damage = 1;
+    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Damage")
+        float ExplodeRadius = 5.f;
+    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Damage")
+        float PushForce = 1000;
 
     FTimerHandle MovementTimerHandle;
 
 public:
     AProjectile();
 
-    void Start();
+    virtual void Start();
 
 protected:
     UFUNCTION()
         void OnMeshOverlapBegin(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
     UFUNCTION()
-        void Move();
+      virtual  void Move();
+
+    UFUNCTION()
+      void Explode();
 };
