@@ -20,7 +20,7 @@ protected:
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Health values")
         float MaxHealth =5.f;
 
-    UPROPERTY()
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Health values")
         float CurrentHealth;
 
 public:
