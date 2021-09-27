@@ -124,6 +124,9 @@ public:
 	void SetPatrollingPoints(TArray<ATargetPoint*> NewPatrollingPoints);
 
 
+	UFUNCTION(BlueprintImplementableEvent)
+		void PlayerDie();
+
 
 protected:
 	
@@ -132,5 +135,6 @@ protected:
 
 	UFUNCTION()
 		void DamageTaked(float DamageValue);
+
 
 };
