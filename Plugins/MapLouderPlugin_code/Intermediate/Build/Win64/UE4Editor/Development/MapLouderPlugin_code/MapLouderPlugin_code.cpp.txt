@@ -1,0 +1,2 @@
+D:\PussyHunter\myProject\EU4\Tankogeddon\Plugins\MapLouderPlugin_code\Intermediate\Build\Win64\UE4Editor\Development\MapLouderPlugin_code\Definitions.MapLouderPlugin_code.h
+D:\PussyHunter\myProject\EU4\Tankogeddon\Plugins\MapLouderPlugin_code\Source\MapLouderPlugin_code\Public\MapLouderPlugin_code.h

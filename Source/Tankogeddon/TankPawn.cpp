@@ -125,6 +125,10 @@ void ATankPawn::TakeDamage(FDamageData DamageData)
 
 void ATankPawn::Die()
 {
+	if (IsPlayerControlled())
+	{
+		PlayerDie();
+	}
 	Destroy();
 }
 

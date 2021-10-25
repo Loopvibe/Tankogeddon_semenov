@@ -1,0 +1,13 @@
+/NOLOGO
+/errorReport:prompt
+/MACHINE:x64
+/SUBSYSTEM:WINDOWS
+/DEF
+/NAME:"UE4Editor-MapLouderPlugin_code.dll"
+/IGNORE:4221
+/NODEFAULTLIB
+"D:\PussyHunter\myProject\EU4\Tankogeddon\Intermediate\Build\Win64\TankogeddonEditor\Development\Engine\SharedPCH.Engine.ShadowErrors.h.obj"
+"D:\PussyHunter\myProject\EU4\Tankogeddon\Plugins\MapLouderPlugin_code\Intermediate\Build\Win64\UE4Editor\Development\MapLouderPlugin_code\MapLouderPlugin_code.cpp.obj"
+"D:\PussyHunter\myProject\EU4\Tankogeddon\Plugins\MapLouderPlugin_code\Intermediate\Build\Win64\UE4Editor\Development\MapLouderPlugin_code\Default.rc2.res"
+/OUT:"D:\PussyHunter\myProject\EU4\Tankogeddon\Plugins\MapLouderPlugin_code\Intermediate\Build\Win64\UE4Editor\Development\MapLouderPlugin_code\UE4Editor-MapLouderPlugin_code.lib"
+/INCLUDE:IMPLEMENT_MODULE_MapLouderPlugin_code
